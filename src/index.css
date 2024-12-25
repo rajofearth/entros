@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --app-bg: #000212;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-hover: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  @apply bg-gradient-to-br from-[#000212] to-[#111] text-white min-h-screen;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Modern Container Styles */
+.glass-container {
+  @apply relative backdrop-blur-xl bg-white/[0.02] rounded-3xl;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Search Bar Styling */
+.search-bar {
+  @apply fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl px-4;
+}
+
+.search-input {
+  @apply w-full bg-white/[0.05] backdrop-blur-2xl border border-white/10 
+         rounded-2xl px-6 py-4 text-white placeholder-white/50
+         focus:outline-none focus:ring-2 focus:ring-white/20
+         transition-all duration-300;
+}
+
+/* Movie Grid Layout */
+.movie-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
+         gap-6 p-6 pt-24 container mx-auto;
+}
+
+/* Movie Card Styling */
+.movie-card {
+  @apply relative overflow-hidden rounded-2xl bg-white/[0.02]
+         transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.movie-card:hover {
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 8px 10px -6px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.movie-card img {
+  @apply transition-transform duration-700;
+}
+
+.movie-card:hover img {
+  @apply scale-110;
+}
+
+/* Movie Details Page */
+.movie-details {
+  @apply min-h-screen relative;
+  background: linear-gradient(to bottom, 
+    rgba(0, 2, 18, 0.5),
+    var(--app-bg)
+  );
+}
+
+.backdrop-overlay {
+  @apply absolute inset-0 bg-gradient-to-b from-transparent via-[#000212]/80 to-[#000212];
+}
+
+/* Rating Badge */
+.rating-badge {
+  @apply inline-flex items-center gap-1 px-3 py-1 rounded-full
+         bg-white/10 text-white/90 backdrop-blur-md;
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  @apply relative overflow-hidden;
+}
+
+.animate-shimmer::after {
+  @apply absolute inset-0;
+  content: '';
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Transitions & Animations */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .movie-grid {
+    @apply gap-4 p-4 pt-20;
+  }
+  
+  .search-bar {
+    @apply px-4 top-4;
+  }
+}
