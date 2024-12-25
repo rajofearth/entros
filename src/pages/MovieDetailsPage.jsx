@@ -318,7 +318,7 @@ export default function MovieDetailsPage() {
               <section className="lg:hidden mt-12 px-6">
                 <div className="max-w-full mx-auto glass-container p-8">
                   <h2 className="text-2xl font-bold mb-6">Similar Movies</h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                  <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     {similar.slice(0, showCount).map(movie => (
                       <div
                         key={movie.id}
@@ -352,30 +352,6 @@ export default function MovieDetailsPage() {
                 </div>
               </section>
             )}
-
-            {/* External Links */}
-            <div className="flex gap-4 mt-4">
-              {movie.imdb_id && (
-                <a
-                  href={`https://www.imdb.com/title/${movie.imdb_id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rating-badge hover:bg-white/20 transition-colors"
-                >
-                  IMDb
-                </a>
-              )}
-              {movie.homepage && (
-                <a
-                  href={movie.homepage}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rating-badge hover:bg-white/20 transition-colors"
-                >
-                  Website
-                </a>
-              )}
-            </div>
           </div>
         </div>
       </div>
