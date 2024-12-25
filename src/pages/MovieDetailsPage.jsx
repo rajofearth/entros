@@ -163,8 +163,47 @@ export default function MovieDetailsPage() {
                 </div>
               </section>
             )}
-          </div>
 
+            {/* Similar Movies - Full Width Section (Desktop) */}
+            {similar?.length > 0 && (
+              <section className="hidden lg:block mt-12 px-6">
+                <div className="max-w-full mx-auto glass-container p-8">
+                  <h2 className="text-2xl font-bold mb-6">Similar Movies</h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    {similar.slice(0, showCount).map(movie => (
+                      <div
+                        key={movie.id}
+                        onClick={() => navigate(`/movie/${movie.id}`)}
+                        className="cursor-pointer hover:scale-105 transition-all duration-300"
+                      >
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          className="w-full aspect-[2/3] object-cover rounded-lg mb-3"
+                        />
+                        <div className="p-2">
+                          <h3 className="font-medium truncate">{movie.title}</h3>
+                          <p className="text-sm text-white/60">
+                            {movie.release_date?.split('-')[0]}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {similar.length > showCount && (
+                    <div className="text-center mt-8">
+                      <button
+                        onClick={() => setShowCount(prev => prev + 10)}
+                        className="glass-container px-8 py-3 rounded-full hover:bg-white/10 transition-all duration-300"
+                      >
+                        Show More
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </section>
+            )}
+          </div>
           {/* Sidebar */}
           <div className="space-y-8">
             {/* Movie Details */}
@@ -274,6 +313,46 @@ export default function MovieDetailsPage() {
               </section>
             )}
 
+            {/* Similar Movies - Full Width Section (Mobile) */}
+            {similar?.length > 0 && (
+              <section className="lg:hidden mt-12 px-6">
+                <div className="max-w-full mx-auto glass-container p-8">
+                  <h2 className="text-2xl font-bold mb-6">Similar Movies</h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    {similar.slice(0, showCount).map(movie => (
+                      <div
+                        key={movie.id}
+                        onClick={() => navigate(`/movie/${movie.id}`)}
+                        className="cursor-pointer hover:scale-105 transition-all duration-300"
+                      >
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          className="w-full aspect-[2/3] object-cover rounded-lg mb-3"
+                        />
+                        <div className="p-2">
+                          <h3 className="font-medium truncate">{movie.title}</h3>
+                          <p className="text-sm text-white/60">
+                            {movie.release_date?.split('-')[0]}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {similar.length > showCount && (
+                    <div className="text-center mt-8">
+                      <button
+                        onClick={() => setShowCount(prev => prev + 10)}
+                        className="glass-container px-8 py-3 rounded-full hover:bg-white/10 transition-all duration-300"
+                      >
+                        Show More
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </section>
+            )}
+
             {/* External Links */}
             <div className="flex gap-4 mt-4">
               {movie.imdb_id && (
@@ -300,46 +379,6 @@ export default function MovieDetailsPage() {
           </div>
         </div>
       </div>
-
-      {/* Similar Movies - Full Width Section */}
-      {similar?.length > 0 && (
-        <section className="mt-12 px-6">
-          <div className="max-w-full mx-auto glass-container p-8">
-            <h2 className="text-2xl font-bold mb-6">Similar Movies</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {similar.slice(0, showCount).map(movie => (
-                <div
-                  key={movie.id}
-                  onClick={() => navigate(`/movie/${movie.id}`)}
-                  className="cursor-pointer hover:scale-105 transition-all duration-300"
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className="w-full aspect-[2/3] object-cover rounded-lg mb-3"
-                  />
-                  <div className="p-2">
-                    <h3 className="font-medium truncate">{movie.title}</h3>
-                    <p className="text-sm text-white/60">
-                      {movie.release_date?.split('-')[0]}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {similar.length > showCount && (
-              <div className="text-center mt-8">
-                <button
-                  onClick={() => setShowCount(prev => prev + 10)}
-                  className="glass-container px-8 py-3 rounded-full hover:bg-white/10 transition-all duration-300"
-                >
-                  Show More
-                </button>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
     </div>
   )
 }
