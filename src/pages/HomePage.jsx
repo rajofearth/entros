@@ -10,9 +10,8 @@ export default function HomePage() {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 pt-20">
       <SearchBar onSearch={handleSearch} />
-      <h1 className="text-4xl font-bold text-center my-8">Discover Movies</h1>
       <MovieGrid initialMovies={searchResults} />
     </div>
   )
