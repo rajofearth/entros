@@ -40,7 +40,7 @@ export default function SearchBar({ onSearch }) {
   };
 
   return (
-    <div className="search-bar flex items-center">
+    <div>
       <input
         type="text"
         value={query}
@@ -49,7 +49,7 @@ export default function SearchBar({ onSearch }) {
         className="search-input border-none outline-none mr-2"
         // Removed disabled prop to prevent losing focus
       />
-      {isSearching && <div className="spinner">Loading...</div>} {/* Add a spinner or loading indicator */}
+      {isSearching && <div className="spinner">Loading...</div>}
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
