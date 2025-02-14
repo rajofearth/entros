@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import MovieGrid from '../components/MovieGrid';
-import { fetchPopularMedia, searchMovies, searchTvShows } from '../api/tmdb'; //Import both media
+import { fetchPopularMedia, searchMovies, searchTvShows } from '../api/tmdb'; 
 
 // Configuration (Adjust these weights as needed)
 const RECENCY_WEIGHT = 0.4;

@@ -1,3 +1,4 @@
+// api/tmdb.js
 import axios from 'axios';
 
 export const tmdb = axios.create({
@@ -74,12 +75,25 @@ export const fetchPersonTvCredits = async (personId) => {
 };
 
 export const fetchTvShowDetails = async (tvId) => {
+  // ADDED THIS:  Input validation
+  if (!tvId) {
+    console.error("fetchTvShowDetails: tvId is missing!"); // Log if tvId is missing
+    throw new Error("fetchTvShowDetails: tvId is required"); // Or return null, as you prefer
+  }
   try {
-    const response = await tmdb.get(`/tv/${tvId}`);
-    return response.data;
+    const response = await tmdb.get(`/tv/${tvId}`,{
+        params: {
+          append_to_response: 'belongs_to_collection',
+        },
+      });
+    return response.data; // Return the data directly, TvDetailsPage extracts .data
   } catch (error) {
     console.error("Error fetching TV show details:", error);
-    throw error;
+      if (error.response && error.response.status === 404) {
+          // Handle 404 errors (not found) specifically
+          return null; // Return null to signal "not found"
+        }
+    throw error; // Re-throw other errors
   }
 };
 
@@ -131,7 +145,7 @@ export const searchByKeyword = async (query) => {
     return response.data
   } catch (error) {
     console.error("Error searching keywords", error);
-    throw error
+    throw error;
   }
 }
 
@@ -141,7 +155,7 @@ export const discoverMovies = async (params) => {
     return response.data;
   } catch (error) {
     console.error("Error discovering movies", error);
-    throw error
+    throw error;
   }
 }
 
@@ -161,7 +175,7 @@ export const fetchCollectionDetails = async (collectionId) => {
     return response.data
   } catch (error) {
     console.error("Error fetching collection details", error);
-    throw error
+    throw error;
   }
 }
 

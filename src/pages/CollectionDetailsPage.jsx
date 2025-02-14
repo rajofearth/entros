@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { tmdb, fetchCollectionDetails } from '../api/tmdb';
-import { Link } from 'react-router-dom';
+import { fetchCollectionDetails } from '../api/tmdb';
+import LoadingSpinner from '../components/LoadingSpinner';
+import MediaCard from '../components/MovieCard'; // Assuming you renamed MovieCard
+import Backdrop from '../components/Backdrop'; // Reuse Backdrop
+import Overview from '../components/Overview';  // Reuse Overview
 
-export default function CollectionDetailsPage() {
+const CollectionDetailsPage = () => {
     const { collection_id } = useParams();
     const navigate = useNavigate();
     const [collection, setCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchCollectionData = async () => {
+            setIsLoading(true);
+            setError(null);
             try {
-                setIsLoading(true);
-                const collectionData = await fetchCollectionDetails(collection_id)
-
+                const collectionData = await fetchCollectionDetails(collection_id);
                 setCollection(collectionData);
-
             } catch (error) {
                 console.error('Error fetching collection data:', error);
+                setError(error);
             } finally {
                 setIsLoading(false);
             }
@@ -27,95 +31,93 @@ export default function CollectionDetailsPage() {
         fetchCollectionData();
     }, [collection_id]);
 
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
-    if (isLoading) return <div className="animate-shimmer min-h-screen" />;
-    if (!collection) return null;
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-red-500">Error: {error.message || "Failed to load collection details."}</p>
+            </div>
+        );
+    }
 
-    const imageUrl = collection.poster_path
-        ? `https://image.tmdb.org/t/p/w500${collection.poster_path}`
-        : 'https://via.placeholder.com/500';
+    if (!collection) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-gray-500">Collection not found.</p>
+            </div>
+        );
+    }
+
+    // Calculate average rating and total votes
+    let totalRating = 0;
+    let totalVotes = 0;
+
+    if (collection.parts) {
+      collection.parts.forEach((media) => {
+          if(media.vote_average && media.vote_count){
+            totalRating += media.vote_average;
+            totalVotes += media.vote_count;
+          }
+
+      });
+    }
+    const averageRating = totalVotes > 0 ? (totalRating / collection.parts.length).toFixed(1) : "N/A";
+
 
     return (
         <div className="min-h-screen pb-12">
-            <div className="relative h-[70vh]">
-                <img
-                   src={imageUrl}
-                   alt={collection.name}
-                   className="w-full h-full object-cover"
-                     onError={(e) => {
-                       e.target.src = 'https://via.placeholder.com/500';
-                     }}
-              />
-              <div className="backdrop-overlay" />
+            <Backdrop item={collection} navigate={navigate} mediaType='collection' />
 
-                  {/* Back Button */}
-                <button
-                  onClick={() => navigate(-1)}
-                  className="fixed top-6 left-6 z-50 glass-container p-4 rounded-full 
-                                hover:bg-white/10 transition-all duration-300 group"
-                >
-                  <svg className="w-6 h-6 text-white/70 group-hover:text-white" 
-                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                   </svg>
-                </button>
+            <div className="max-w-7xl mx-auto px-6 mt-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <div className="lg:col-span-2 space-y-8">
+                        <Overview item={collection} />
 
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <div className="max-w-7xl mx-auto">
-                    <h1 className="text-5xl font-bold text-white mb-4">{collection.name}</h1>
-                   </div>
+                        {/* Media Grid (using MediaCard) */}
+                         {collection.parts && collection.parts.length > 0 && (
+                            <section className="glass-container p-8">
+                                <h2 className="text-2xl font-bold mb-6">Movies/TV Shows in this Collection</h2>
+                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                                    {collection.parts.map((media) => {
+                                        const mediaWithMediaType = { ...media, media_type: media.media_type || (media.title ? 'movie' : 'tv') };
+                                          return(
+                                            <MediaCard key={`${mediaWithMediaType.media_type}-${mediaWithMediaType.id}`} media={mediaWithMediaType} />
+                                        )})}
+                                </div>
+                            </section>
+                        )}
+                         {!collection.parts || collection.parts.length === 0 &&(
+                            <section className="glass-container p-8">
+                                <h2 className="text-2xl font-bold mb-6">Movies/TV Shows in this Collection</h2>
+                                <div>No Items Found.</div>
+                             </section>
+                         )}
+                    </div>
+
+                    {/* Sidebar */}
+                    <div className="lg:col-span-1 space-y-8">
+                        <section className="glass-container p-8">
+                            <h2 className="text-2xl font-bold mb-6">Details</h2>
+                            <div className="space-y-4">
+                                <div>
+                                    <h3 className="text-white/60">Collection Size</h3>
+                                     <p>{collection.parts?.length || "N/A"}</p>
+                                </div>
+                                 <div>
+                                      <h3 className="text-white/60">Average Rating</h3>
+                                      <p>{averageRating}</p>
+                                </div>
+                                {/* Add more details as needed, mirroring movie details structure */}
+                            </div>
+                        </section>
+                    </div>
                 </div>
-             </div>
-
-          {/* Content Grid */}
-        <div className="max-w-7xl mx-auto px-6 mt-12">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                  {/* Main Content */}
-                <div className="lg:col-span-2 space-y-8">
-                    {/* Overview */}
-                <section className="glass-container p-8">
-                    <h2 className="text-2xl font-bold mb-4">Overview</h2>
-                       <p className="text-lg text-white/80 leading-relaxed">
-                         {collection.overview}
-                      </p>
-                   </section>
-
-                   {/* Movie Credits */}
-                    {collection.parts && collection.parts.length > 0 && (
-                      <section className="glass-container p-8">
-                            <h2 className="text-2xl font-bold mb-6">Movies in this collection</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                         {collection.parts.map((movie) => (
-                                  <Link to={`/movie/${movie.id}`} key={movie.id} className="hover:scale-105 transition-transform duration-300">
-                                <img
-                                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                                    alt={movie.title}
-                                    className="w-full aspect-[2/3] object-cover rounded-lg mb-3"
-                                      onError={(e) => {
-                                      e.target.src = 'https://via.placeholder.com/200';
-                                  }}
-                              />
-                             <h3 className="font-medium truncate">{movie.title}</h3>
-                              </Link>
-                                ))}
-                         </div>
-                      </section>
-                    )}
-
-                  </div>
-                {/* Sidebar */}
-                <div className="space-y-8">
-                {/* Details */}
-                    <section className="glass-container p-8">
-                            <h2 className="text-2xl font-bold mb-4">Details</h2>
-                    <div>
-                         <h3 className="text-white/60">Collection Size</h3>
-                         <p>{collection.parts?.length || "N/A"}</p>
-                        </div>
-                    </section>
-                 </div>
             </div>
         </div>
-     </div>
     );
-  }
+};
+
+export default CollectionDetailsPage;

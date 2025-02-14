@@ -4,6 +4,7 @@ import MovieDetailsPage from './pages/MovieDetailsPage';
 import PersonDetailsPage from './pages/PersonDetailsPage';
 import TvDetailsPage from './pages/TvDetailsPage';
 import CollectionDetailsPage from './pages/CollectionDetailsPage';
+import LogoPage from './pages/LogoPage';
 import { Analytics } from "@vercel/analytics/react";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Analytics />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/logo/" element={<LogoPage/>}/>
         <Route path="/movie/:id" element={<MovieDetailsPage />} />
          <Route path="/person/:person_id" element={<PersonDetailsPage />} />
          <Route path="/tv/:tv_id" element={<TvDetailsPage />} />
