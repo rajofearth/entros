@@ -16,8 +16,8 @@
 
 3. **Core Features to Build**  
    - **Search Movies:** A search bar to query TMDb.  
-   - **Display Details:** Show movie posters, titles, and ratings.  
-   - **Movie Details Page:** Detailed info on a selected movie.  
+   - **Display Details:** Show movie/tvshow posters, titles, and ratings.  
+   - **Movie/Tvshow Details Page:** Detailed info on a selected movie/tvshow.  
    - **Public Library Setup:** Display curated movies.
 
 4. **Minimalist & Fun UI with Tailwind CSS**  
@@ -28,5 +28,6 @@
    - Website should adapt with the movie User is Hovering or Viewing In details
 
 5. **Routing Example**  
-   - `/` → Home (Search & Movie Grid)  
+   - `/` → Home (Search & Media Grid)  
    - `/movie/:id` → Movie Details  
+   - `/tv/:id` → TvShow Details  

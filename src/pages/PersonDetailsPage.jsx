@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { tmdb, fetchPersonDetails, fetchPersonMovieCredits, fetchPersonTvCredits } from '../api/tmdb';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,15 @@ export default function PersonDetailsPage() {
   const [movieCredits, setMovieCredits] = useState(null);
   const [tvCredits, setTvCredits] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+    //Removes duplicates to avoid the issue.
+ function removeDuplicates(arr, key) {
+  const seen = new Set();
+  return arr.filter(item => {
+    const keyValue = item[key];
+    return seen.has(keyValue) ? false : seen.add(keyValue);
+  });
+}
 
   useEffect(() => {
     const fetchPersonData = async () => {
@@ -24,8 +33,8 @@ export default function PersonDetailsPage() {
           ]);
 
         setPerson(personData);
-        setMovieCredits(movieCreditsData.cast);
-        setTvCredits(tvCreditsData.cast);
+        setMovieCredits(movieCreditsData);
+        setTvCredits(removeDuplicates(tvCreditsData, "id"));
       } catch (error) {
         console.error('Error fetching person data:', error);
       } finally {
@@ -42,7 +51,7 @@ export default function PersonDetailsPage() {
 
     const imageUrl = person.profile_path
         ? `https://image.tmdb.org/t/p/w500${person.profile_path}`
-      : 'https://via.placeholder.com/500';
+      : 'https://placehold.co/400';
 
     return (
         <div className="min-h-screen pb-12">
@@ -52,7 +61,7 @@ export default function PersonDetailsPage() {
                alt={person.name}
                className="w-full h-full object-cover"
                  onError={(e) => {
-                 e.target.src = 'https://via.placeholder.com/500';
+                 e.target.src = 'https://placehold.co/400';
                    }}
           />
           <div className="backdrop-overlay" />
@@ -95,14 +104,14 @@ export default function PersonDetailsPage() {
                       <section className="glass-container p-8">
                       <h2 className="text-2xl font-bold mb-6">Movie Credits</h2>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                        {movieCredits.map((movie) => (
-                        <Link to={`/movie/${movie.id}`} key={movie.id} className="hover:scale-105 transition-transform duration-300">
+                        {movieCredits.map((movie, index) => (
+                        <Link to={`/movie/${movie.id}`} key={`movie-${movie.id}-${index}`} className="hover:scale-105 transition-transform duration-300">
                             <img
                             src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                             alt={movie.title}
                             className="w-full aspect-[2/3] object-cover rounded-lg mb-3"
                              onError={(e) => {
-                           e.target.src = 'https://via.placeholder.com/200';
+                           e.target.src = 'https://placehold.co/400';
                            }}
                         />
                            <h3 className="font-medium truncate">{movie.title}</h3>
@@ -117,14 +126,14 @@ export default function PersonDetailsPage() {
                       <section className="glass-container p-8">
                         <h2 className="text-2xl font-bold mb-6">TV Show Credits</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                           {tvCredits.map((tv) => (
-                              <Link to={`/tv/${tv.id}`} key={tv.id} className="hover:scale-105 transition-transform duration-300">
+                           {tvCredits.map((tv, index) => (
+                              <Link to={`/tv/${tv.id}`} key={`tv-${tv.id}-${index}`} className="hover:scale-105 transition-transform duration-300">
                                   <img
                                     src={`https://image.tmdb.org/t/p/w200${tv.poster_path}`}
                                    alt={tv.name}
                                     className="w-full aspect-[2/3] object-cover rounded-lg mb-3"
                                      onError={(e) => {
-                                      e.target.src = 'https://via.placeholder.com/200';
+                                      e.target.src = 'https://placehold.co/400';
                                      }}
                                 />
                               <h3 className="font-medium truncate">{tv.name}</h3>
