@@ -1,4 +1,3 @@
-// api/tmdb.js
 import axios from 'axios';
 
 export const tmdb = axios.create({
@@ -13,7 +12,7 @@ export const searchMovies = async (query) => {
     const response = await tmdb.get('/search/movie', {
       params: { query }
     });
-    return response.data.results.map(movie => ({ ...movie, media_type: 'movie' })); // ADD THIS
+    return response.data.results.map(movie => ({ ...movie, media_type: 'movie' }));
   } catch (error) {
     console.error("Error searching movies", error);
     throw error;
@@ -25,7 +24,7 @@ export const searchTvShows = async (query) => {
     const response = await tmdb.get('/search/tv', {
       params: { query }
     });
-    return response.data.results.map(tvShow => ({ ...tvShow, media_type: 'tv' })); // ADD THIS
+    return response.data.results.map(tvShow => ({ ...tvShow, media_type: 'tv' }));
   } catch (error) {
     console.error("Error searching TV Shows", error);
     throw error;
@@ -75,10 +74,9 @@ export const fetchPersonTvCredits = async (personId) => {
 };
 
 export const fetchTvShowDetails = async (tvId) => {
-  // ADDED THIS:  Input validation
   if (!tvId) {
-    console.error("fetchTvShowDetails: tvId is missing!"); // Log if tvId is missing
-    throw new Error("fetchTvShowDetails: tvId is required"); // Or return null, as you prefer
+    console.error("fetchTvShowDetails: tvId is missing!");
+    throw new Error("fetchTvShowDetails: tvId is required");
   }
   try {
     const response = await tmdb.get(`/tv/${tvId}`,{
@@ -86,14 +84,13 @@ export const fetchTvShowDetails = async (tvId) => {
           append_to_response: 'belongs_to_collection',
         },
       });
-    return response.data; // Return the data directly, TvDetailsPage extracts .data
+    return response.data;
   } catch (error) {
     console.error("Error fetching TV show details:", error);
       if (error.response && error.response.status === 404) {
-          // Handle 404 errors (not found) specifically
-          return null; // Return null to signal "not found"
+          return null;
         }
-    throw error; // Re-throw other errors
+    throw error;
   }
 };
 
@@ -107,15 +104,26 @@ export const fetchTvShowSeasonEpisodes = async (tvId, seasonNumber) => {
   }
 };
 
-export const fetchTvShowGenres = async () => {
-  try {
-    const response = await tmdb.get('/genre/tv/list');
-    return response.data.genres
-  } catch (error) {
-    console.error("Error Fetching tv show genres", error)
-    throw error
-  }
-}
+// Combined fetch for both TV and Movie genres
+export const fetchGenres = async () => {
+    try {
+      const [tvGenresRes, movieGenresRes] = await Promise.all([
+        tmdb.get('/genre/tv/list'),
+        tmdb.get('/genre/movie/list'),
+      ]);
+
+      const combinedGenres = [...tvGenresRes.data.genres, ...movieGenresRes.data.genres];
+      //Remove Duplicate
+      const uniqueGenres = Array.from(new Set(combinedGenres.map(genre => genre.id)))
+      .map(id => {
+        return combinedGenres.find(genre => genre.id === id);
+      });
+      return uniqueGenres;
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+      throw error;
+    }
+  };
 
 export const discoverTvShows = async (params) => {
   try {
@@ -123,7 +131,7 @@ export const discoverTvShows = async (params) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching discover TV shows", error);
-    throw error
+    throw error;
   }
 }
 
@@ -179,7 +187,7 @@ export const fetchCollectionDetails = async (collectionId) => {
   }
 }
 
-//Combined Function
+
 export const fetchPopularMedia = async () => {
   try {
     const [moviesResponse, tvShowsResponse] = await Promise.all([
@@ -187,11 +195,12 @@ export const fetchPopularMedia = async () => {
       tmdb.get('/tv/popular')
     ]);
 
-    // Combine movies and TV shows, adding a media_type property
     const movies = moviesResponse.data.results.map(movie => ({ ...movie, media_type: 'movie' }));
     const tvShows = tvShowsResponse.data.results.map(tvShow => ({ ...tvShow, media_type: 'tv' }));
+
     const combined = [...movies, ...tvShows];
-    return combined
+    return combined;
+
   } catch (error) {
     console.error("Error fetching popular movies and TV shows:", error);
     throw error;
