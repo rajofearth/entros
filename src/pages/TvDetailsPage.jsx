@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { tmdb, fetchTvShowDetails } from '../api/tmdb';
 import Backdrop from '../components/Backdrop';
 import Overview from '../components/Overview';
@@ -8,8 +8,10 @@ import Trailer from '../components/Trailer';
 import SimilarItems from '../components/SimilarItems';
 import DetailsSidebar from '../components/DetailsSidebar';
 import WatchProviders from '../components/WatchProviders';
-import LoadingSpinner from '../components/LoadingSpinner'; // Import LoadingSpinner
+import LoadingSpinner from '../components/LoadingSpinner';
 import CollectionSection from '../components/CollectionSection';
+import SeasonDisplay from '../components/SeasonDisplay'; // Import the new component
+
 
 const TvDetailsPage = () => {
     const { tv_id } = useParams();
@@ -18,7 +20,7 @@ const TvDetailsPage = () => {
     const [credits, setCredits] = useState(null);
     const [similar, setSimilar] = useState(null);
     const [videos, setVideos] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // Start with isLoading true
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [collection, setCollection] = useState(null);
     const [allSeasons, setAllSeasons] = useState([]);
@@ -26,7 +28,7 @@ const TvDetailsPage = () => {
 
     useEffect(() => {
         const fetchTvData = async () => {
-            setIsLoading(true); // Set loading to true before fetching
+            setIsLoading(true);
             setError(null);
             try {
                 const [tvRes, creditsRes, similarRes, videosRes] = await Promise.all([
@@ -47,7 +49,7 @@ const TvDetailsPage = () => {
                 console.error('Error fetching TV show data:', err);
                 setError(err);
             } finally {
-                setIsLoading(false); // Set loading to false after fetching (success or error)
+                setIsLoading(false);
             }
         };
         fetchTvData();
@@ -74,12 +76,10 @@ const TvDetailsPage = () => {
         }
     }, [allSeasons]);
 
-    // Display LoadingSpinner while isLoading is true
     if (isLoading) {
         return <LoadingSpinner />;
     }
 
-    // Handle error state (if you have an error)
     if (error) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -88,7 +88,6 @@ const TvDetailsPage = () => {
         );
     }
 
-    // Handle the case where tvShow is still null (shouldn't happen after isLoading is false, but good practice)
     if (!tvShow) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -101,8 +100,7 @@ const TvDetailsPage = () => {
     const mediaType = 'tv';
 
     return (
-        // ... (rest of your JSX for TvDetailsPage) ...
-         <div className="min-h-screen pb-12">
+        <div className="min-h-screen pb-12">
             <Backdrop item={tvShow} navigate={navigate} mediaType={mediaType} number_of_episodes={number_of_episodes} />
             <div className="max-w-7xl mx-auto px-6 mt-12">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -110,6 +108,10 @@ const TvDetailsPage = () => {
                         <Overview item={tvShow} />
                         <TopCast cast={cast} />
                         <Trailer trailer={trailer} />
+                        {/* Season Display */}
+                        {tvShow.seasons && tvShow.seasons.length > 0 && (
+                            <SeasonDisplay tvId={tv_id} seasons={tvShow.seasons} />
+                        )}
                         <SimilarItems similar={similar} navigate={navigate} mediaType={mediaType} />
                           <CollectionSection collection={collection} />
                     </div>

@@ -187,7 +187,27 @@ export const fetchCollectionDetails = async (collectionId) => {
   }
 }
 
+// Function to fetch movie content ratings
+export const fetchMovieContentRatings = async (movieId) => {
+  try {
+    const response = await tmdb.get(`/movie/${movieId}/release_dates`);
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching movie content ratings", error);
+    return [];
+  }
+};
 
+// Function to fetch TV show content ratings
+export const fetchTvContentRatings = async (tvId) => {
+  try {
+    const response = await tmdb.get(`/tv/${tvId}/content_ratings`);
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching tv content ratings", error);
+    return [];
+  }
+};
 export const fetchPopularMedia = async () => {
   try {
     const [moviesResponse, tvShowsResponse] = await Promise.all([

@@ -1,18 +1,25 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { tmdb, searchMovies, searchTvShows, searchPersons } from '../api/tmdb';
+import { tmdb, searchMovies, searchTvShows, searchPersons, discoverMovies, discoverTvShows } from '../api/tmdb';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function SearchBar({ onSearch }) {
     const [query, setQuery] = useState('');
     const [searchType, setSearchType] = useState('multi');
     const [suggestions, setSuggestions] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
-    const [isFocused, setIsFocused] = useState(false); // Track focus state
+    const [isFocused, setIsFocused] = useState(false);
     const [error, setError] = useState(null);
     const debounceTimeout = useRef(null);
     const navigate = useNavigate();
     const suggestionsRef = useRef(null);
+    // Advanced Filters State
+    const [yearFrom, setYearFrom] = useState('');
+    const [yearTo, setYearTo] = useState('');
+    const [ratingFrom, setRatingFrom] = useState('');
+    const [ratingTo, setRatingTo] = useState('');
+    const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
     const fetchSuggestions = useCallback(async (searchQuery) => {
         if (!searchQuery.trim()) {
@@ -53,7 +60,6 @@ export default function SearchBar({ onSearch }) {
         setQuery(value);
         clearTimeout(debounceTimeout.current);
 
-        // Show suggestions immediately when typing starts
         if (value.trim().length > 0) {
           setIsFocused(true);
         }
@@ -66,13 +72,12 @@ export default function SearchBar({ onSearch }) {
         setSearchType(e.target.value);
         setQuery("");
         setSuggestions([]);
-        onSearch([], "", e.target.value);
+        onSearch([], "", e.target.value, {}, true); // Pass empty filters and isAdvancedSearch=false
     };
-
     const handleSuggestionClick = (suggestion) => {
         setQuery(suggestion.display);
         setSuggestions([]);
-        setIsFocused(false); // Hide suggestions after click
+        setIsFocused(false);
 
         if (suggestion.media_type === 'movie') {
             navigate(`/movie/${suggestion.id}`);
@@ -91,17 +96,15 @@ export default function SearchBar({ onSearch }) {
     };
 
     const handleBlur = () => {
-        // Delay hiding suggestions slightly to allow click events on the suggestion list to register
         setTimeout(() => {
             setIsFocused(false);
         }, 100);
     };
 
-
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
-          setIsFocused(false); // Hide suggestions if click outside
+          setIsFocused(false);
         }
       };
 
@@ -110,6 +113,20 @@ export default function SearchBar({ onSearch }) {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, []);
+
+    const toggleAdvancedFilters = () => {
+      setShowAdvancedFilters(!showAdvancedFilters);
+    }
+     const handleAdvancedSearch = () => {
+        const filters = {
+            yearFrom,
+            yearTo,
+            ratingFrom,
+            ratingTo,
+        };
+         onSearch([], query, searchType, filters, true);
+        setShowAdvancedFilters(false); // Hide on search
+    };
 
 
     return (
@@ -125,8 +142,70 @@ export default function SearchBar({ onSearch }) {
                     className="search-input border-none outline-none mr-2 flex-grow"
                 />
             </div>
+            {/* Toggle Advanced Filters Button */}
+            <button
+                type="button"
+                onClick={toggleAdvancedFilters}
+                className="mt-2 text-sm text-gray-300 bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-md px-2 py-1 text-white focus:outline-none focus:ring-1 focus:ring-white/20 transition-colors"
+              >
+                {showAdvancedFilters ? "Hide Advanced Filters" : "Show Advanced Filters"}
+            </button>
 
-            {/* Conditional rendering based on focus and suggestions */}
+             {/* Advanced Filters */}
+            {showAdvancedFilters && (
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300">Year From:</label>
+                  <input
+                    type="number"
+                    value={yearFrom}
+                    onChange={(e) => setYearFrom(e.target.value)}
+                    className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-md px-3 py-1 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300">Year To:</label>
+                  <input
+                    type="number"
+                    value={yearTo}
+                    onChange={(e) => setYearTo(e.target.value)}
+                    className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-md px-3 py-1 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300">Rating From:</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value={ratingFrom}
+                    onChange={(e) => setRatingFrom(e.target.value)}
+                    className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-md px-3 py-1 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300">Rating To:</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value={ratingTo}
+                    onChange={(e) => setRatingTo(e.target.value)}
+                    className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-md px-3 py-1 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+                 <button
+                    type="button"
+                    onClick={handleAdvancedSearch}
+                    className="col-span-2 bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20 transition-colors"
+                >
+                    Apply Filters
+                </button>
+              </div>
+            )}
+
             {isFocused && suggestions.length > 0 && (
                 <ul ref={suggestionsRef} className="absolute z-50 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl w-full mt-2 max-h-60 overflow-y-auto">
                     {suggestions.map((item) => (
@@ -141,7 +220,7 @@ export default function SearchBar({ onSearch }) {
                                         <img
                                             src={item.profile_path ? `https://image.tmdb.org/t/p/w92${item.profile_path}` : '/no-profile.svg'}
                                             alt={item.name}
-                                            className="w-10 h-10 rounded-full inline-block mr-2" 
+                                            className="w-10 h-10 rounded-full inline-block mr-2"
                                         />
                                         <span className="text-sm">{item.display}</span>
                                         <span className="ml-2 text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">Person</span>
@@ -173,7 +252,7 @@ export default function SearchBar({ onSearch }) {
                 </ul>
             )}
 
-            {isSearching && <div className="spinner">Loading...</div>}
+            {isSearching && <LoadingSpinner />}
             {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { tmdb } from '../api/tmdb';
 import { getProviderLogo } from '../utils/imageUtils';
+import LoadingSpinner from './LoadingSpinner';
 
 const COUNTRIES = [
     { code: 'US', name: 'United States' },
@@ -42,9 +43,7 @@ const WatchProviders = ({ itemId, mediaType }) => {
     };
 
      if (isLoading) {
-      return (<div className='glass-container p-8'>
-        <p>Loading providers...</p>
-      </div>);
+      return (<LoadingSpinner />);
     }
 
 

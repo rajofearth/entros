@@ -189,7 +189,26 @@ select {
     transform: translateX(100%);
   }
 }
+/* Optional: More specific color overrides, if needed */
+.bg-red-600\/80 {
+    background-color: rgba(220, 38, 38, 0.8);
+    color: white;  /* Ensure text is white for contrast */
+}
 
+.bg-yellow-500\/80 {
+    background-color: rgba(250, 204, 21, 0.8);
+    color: black;  /* Ensure text is black for contrast */
+}
+
+.bg-green-500\/80 {
+    background-color: rgba(74, 222, 128, 0.8);
+    color: white;  /* Ensure text is white for contrast */
+}
+
+.bg-gray-500\/80 {
+    background-color: rgba(107, 114, 128, 0.8); /* A default */
+     color: white;  /* Ensure text is white for contrast */
+}
 .animate-shimmer {
   @apply relative overflow-hidden;
 }
