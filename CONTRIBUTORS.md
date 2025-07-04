@@ -7,7 +7,7 @@ Thank you for your interest in contributing to **Entros**! We welcome contributi
 ## 📋 Table of Contents
 
 - [🚀 Getting Started](#-getting-started)
-- [ Development Workflow](#-development-workflow)
+- [🔧 Development Workflow](#-development-workflow)
 - [📝 Contribution Guidelines](#-contribution-guidelines)
 - [🐛 Known Issues & Bug Reports](#-known-issues--bug-reports)
 - [✨ Feature Requests & Enhancements](#-feature-requests--enhancements)
