@@ -235,7 +235,7 @@ git commit -m "docs: update API integration guide"
 
 ### How to Report Bugs
 
-1. **Check if the bug already exists** in our [Issues](https://github.com/yourname/entros/issues)
+1. **Check if the bug already exists** in our [Issues](https://github.com/rajofearth/entros/issues)
 2. **Use the bug report template**
 3. **Provide clear reproduction steps**
 4. **Include screenshots/videos** if applicable
@@ -292,94 +292,51 @@ Screenshots, mockups, etc.
 
 ### 🌟 User Experience Enhancements
 
-#### **User Accounts & Preferences**
+#### **User Accounts & Preferences** :
 - **Watchlist/Favorites**: Save movies and shows for later
 - **User Ratings**: Allow users to rate content
 - **Viewing History**: Track what users have viewed
 - **Recommendations**: Personalized content suggestions
-- **Skills needed**: Backend development, authentication, database
-- **Difficulty**: Hard
 
-#### **Dark/Light Mode Toggle**
-- **Description**: Theme switching for user preference
-- **Skills needed**: CSS, React context, local storage
-- **Difficulty**: Easy
+- **Dark/Light Mode Toggle** : Theme switching for user preference
 
-#### **Offline Support**
-- **Description**: Cache popular content for offline viewing
-- **Skills needed**: Service workers, caching strategies
-- **Difficulty**: Medium
+- **Offline Support** : Cache popular content for offline viewing
 
-#### **Social Features**
-- **Description**: Share favorites, write reviews, follow friends
-- **Skills needed**: Social media APIs, user management
-- **Difficulty**: Hard
+- **Social Features**: Share favorites, write reviews, follow friends
 
 ### 🔍 Search & Discovery
 
-#### **Advanced Filters**
+#### **Advanced Filters**:
 - **Cast/Crew Filter**: Search by specific actors or directors
 - **Streaming Platform Filter**: Filter by Netflix, Hulu, etc.
 - **Language Filter**: Filter by original language
-- **Skills needed**: API integration, UI design
-- **Difficulty**: Medium
 
-#### **Search Suggestions**
-- **Description**: Real-time search suggestions as user types
-- **Skills needed**: Debouncing, API optimization
-- **Difficulty**: Medium
-
-#### **Voice Search**
-- **Description**: Search using voice input
-- **Skills needed**: Web Speech API, browser compatibility
-- **Difficulty**: Medium
+- **Search Suggestions**: Real-time search suggestions as user types
 
 ### 📱 Mobile & Performance
 
-#### **Native Mobile Apps (Android & iOS)**
-- **Description**: Native mobile applications with bring-your-own-key TMDB support
-- **Features**: Offline viewing, push notifications, native UI, camera barcode scanning
-- **BYOK Support**: Users provide their own TMDB API key for personalized experience
-- **Skills needed**: React Native/Flutter, native development, API key management, app store deployment
-- **Difficulty**: Hard
+#### **Native Mobile Apps (Android & iOS)**: Native mobile applications with bring-your-own-key TMDB support
 
-#### **Progressive Web App (PWA)**
-- **Description**: Install app on mobile devices
-- **Skills needed**: Service workers, web app manifest
-- **Difficulty**: Medium
+#### **Virtual Scrolling**: Optimize performance for large lists
 
-#### **Virtual Scrolling**
-- **Description**: Optimize performance for large lists
-- **Skills needed**: React optimization, virtualization
-- **Difficulty**: Hard
-
-#### **Image Optimization**
-- **Description**: Lazy loading, WebP support, responsive images
-- **Skills needed**: Performance optimization, browser APIs
-- **Difficulty**: Medium
+#### **Image Optimization**: Lazy loading, WebP support, responsive images
 
 ### 🎨 UI/UX Improvements
 
-#### **Animations & Micro-interactions**
+#### **Animations & Micro-interactions**:
 - **Page Transitions**: Smooth transitions between pages
 - **Loading Animations**: Skeleton screens, progress indicators
 - **Hover Effects**: Enhanced card interactions
-- **Skills needed**: CSS animations, React transitions
-- **Difficulty**: Medium
 
-#### **Better Mobile Experience**
+#### **Better Mobile Experience**:
 - **Swipe Gestures**: Navigate with touch gestures
 - **Pull-to-Refresh**: Refresh content with pull gesture
 - **Touch Optimizations**: Better touch targets and interactions
-- **Skills needed**: Touch APIs, mobile UX
-- **Difficulty**: Medium
 
 #### **Accessibility Improvements**
 - **Screen Reader Support**: Full ARIA implementation
 - **Keyboard Navigation**: Complete keyboard accessibility
 - **High Contrast Mode**: Support for visual impairments
-- **Skills needed**: Web accessibility standards
-- **Difficulty**: Medium
 
 ### 🔧 Technical Improvements
 
@@ -387,144 +344,16 @@ Screenshots, mockups, etc.
 - **Unit Tests**: Component and utility function tests
 - **Integration Tests**: API and user flow tests
 - **E2E Tests**: Full application testing
-- **Skills needed**: Jest, React Testing Library, Cypress
-- **Difficulty**: Medium
 
 #### **Performance Monitoring**
 - **Real User Monitoring**: Track actual user performance
 - **Error Tracking**: Automatic error reporting
 - **Analytics Dashboard**: Usage statistics and insights
-- **Skills needed**: Monitoring tools, analytics
-- **Difficulty**: Medium
 
 #### **Internationalization (i18n)**
 - **Multi-language Support**: Translate UI to multiple languages
 - **Localization**: Format dates, numbers for different regions
 - **RTL Support**: Support for right-to-left languages
-- **Skills needed**: i18n libraries, localization
-- **Difficulty**: Medium
-
----
-
-## 🧪 Testing
-
-### Running Tests
-
-```bash
-# Run all tests
-npm run test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run E2E tests
-npm run test:e2e
-```
-
-### Testing Guidelines
-
-- **Write tests for new features**
-- **Ensure 80%+ code coverage**
-- **Test user interactions**
-- **Mock external API calls**
-- **Test accessibility features**
-
-### Test Structure
-
-```javascript
-// Component.test.jsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import Component from './Component';
-
-describe('Component', () => {
-  it('should render correctly', () => {
-    render(<Component />);
-    expect(screen.getByText('Expected Text')).toBeInTheDocument();
-  });
-
-  it('should handle user interaction', () => {
-    render(<Component />);
-    fireEvent.click(screen.getByRole('button'));
-    expect(/* assertion */).toBeTruthy();
-  });
-});
-```
-
----
-
-## 📚 Code Style
-
-### ESLint Configuration
-
-We use ESLint with React and accessibility rules:
-
-```json
-{
-  "extends": [
-    "eslint:recommended",
-    "@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended"
-  ]
-}
-```
-
-### Prettier Configuration
-
-```json
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2
-}
-```
-
-### Component Structure
-
-```jsx
-// Component.jsx
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
-const Component = ({ prop1, prop2 }) => {
-  // Hooks
-  const [state, setState] = useState(initialValue);
-
-  // Effects
-  useEffect(() => {
-    // Effect logic
-  }, [dependencies]);
-
-  // Event handlers
-  const handleEvent = () => {
-    // Handler logic
-  };
-
-  // Render
-  return (
-    <div className="component-container">
-      {/* JSX content */}
-    </div>
-  );
-};
-
-Component.propTypes = {
-  prop1: PropTypes.string.isRequired,
-  prop2: PropTypes.number,
-};
-
-Component.defaultProps = {
-  prop2: 0,
-};
-
-export default Component;
-```
 
 ---
 
@@ -533,7 +362,7 @@ export default Component;
 ### Before Submitting
 
 - [ ] **Code follows style guidelines**
-- [ ] **Tests pass locally**
+- [ ] **Lint Satisfied & Formatted**
 - [ ] **Changes are documented**
 - [ ] **Commit messages follow convention**
 - [ ] **Branch is up to date with main**
@@ -565,45 +394,12 @@ Brief description of changes
 - [ ] No new warnings
 ```
 
-### Review Process
-
-1. **Automated checks** must pass
-2. **Code review** by maintainers
-3. **Testing** in development environment
-4. **Approval** from at least one maintainer
-5. **Merge** to main branch
-
----
-
-## 🏆 Recognition
-
-Contributors will be recognized in the following ways:
-
-- **README contributors section**
-- **Release notes mentions**
-- **Special contributor badges**
-- **Maintainer status** for outstanding contributors
-
----
-
-## 📞 Getting Help
-
-- **Discussions**: [GitHub Discussions](https://github.com/yourname/entros/discussions)
-- **Discord**: [Join our community](#)
-- **Email**: [contributors@entros.app](mailto:contributors@entros.app)
-
----
-
-## 📜 Code of Conduct
-
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
-
 ---
 
 <div align="center">
 
 **Thank you for contributing to Entros! 🎬✨**
 
-[🏠 Back to README](README.md) | [📋 View Issues](https://github.com/yourname/entros/issues) | [💡 Discussions](https://github.com/yourname/entros/discussions)
+[🏠 Back to README](README.md) | [📋 View Issues](https://github.com/rajofearth/entros/issues) | [💡 Discussions](https://github.com/rajofearth/entros/discussions)
 
 </div>
