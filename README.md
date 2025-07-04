@@ -44,9 +44,9 @@
 - **Problem**: Entertainment information is scattered across different websites and platforms
 - **Solution**: Centralized hub with comprehensive details, ratings, cast information, and streaming availability
 
-### 🔍 Search Complexity
-- **Problem**: Generic search engines don't understand entertainment-specific queries
-- **Solution**: Specialized search with filters for year, rating, genre, and media type
+### 📺 Unsure Where to Watch?
+- **Problem**: Not sure which platform streams your favorite movie or show?
+- **Solution**: Entros shows you exactly where to watch—no more guessing or endless searching.
 
 ### 📱 Poor Mobile Experience
 - **Problem**: Many entertainment sites have poor mobile interfaces
@@ -66,41 +66,6 @@
 | **TMDb API** | Movie/TV Data Source | v3 |
 | **Vercel Analytics** | Usage Analytics | 1.4.1 |
 | **ESLint** | Code Quality | 9.17.0 |
-
----
-
-## 🏗️ Project Structure
-
-```
-entros/
-├── public/                 # Static assets
-├── src/
-│   ├── components/         # Reusable UI components
-│   │   ├── SearchBar.jsx   # Advanced search functionality
-│   │   ├── MovieCard.jsx   # Media item display
-│   │   ├── MovieGrid.jsx   # Grid layout for media
-│   │   ├── GenreFilter.jsx # Genre-based filtering
-│   │   ├── DetailsSidebar.jsx # Content details panel
-│   │   ├── TopCast.jsx     # Cast information display
-│   │   ├── WatchProviders.jsx # Streaming availability
-│   │   └── ...            # Additional components
-│   ├── pages/             # Route components
-│   │   ├── HomePage.jsx   # Main discovery page
-│   │   ├── MovieDetailsPage.jsx # Movie information
-│   │   ├── TvDetailsPage.jsx # TV show information
-│   │   ├── PersonDetailsPage.jsx # Actor/Director profiles
-│   │   └── CollectionDetailsPage.jsx # Movie collections
-│   ├── api/
-│   │   └── tmdb.js        # TMDb API integration
-│   ├── utils/             # Utility functions
-│   ├── Ads/               # Advertisement components
-│   ├── App.jsx            # Main application component
-│   └── main.jsx           # Application entry point
-├── tailwind.config.js     # Tailwind configuration
-├── vite.config.js         # Vite build configuration
-├── vercel.json            # Vercel deployment config
-└── package.json           # Project dependencies
-```
 
 ---
 
@@ -156,7 +121,7 @@ npm run preview
 - **Multi-type Search**: Movies, TV shows, and people in one search
 - **Advanced Filters**: Year range, rating range, genre selection
 - **Smart Scoring**: Algorithm prioritizes relevant, recent, and high-quality content
-- **Real-time Results**: Instant search with debounced input
+- **Real-time Results**: Instant search with endless database of movies/tvshows
 
 ### 📱 Responsive Design
 - **Mobile-First**: Optimized for small screens with touch interactions
