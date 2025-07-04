@@ -6,7 +6,7 @@
 
 **Discover your next favorite film or show**
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge)](https://your-demo-url.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge)](https://entros.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 [![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
