@@ -80,7 +80,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/entros.git
+   git clone https://github.com/rajofearth/entros.git
    cd entros
    ```
 
@@ -207,6 +207,6 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTORS.md) f
 
 **Made with ❤️ for movie and TV show enthusiasts**
 
-[⭐ Star this repo](https://github.com/yourusername/entros) | [🐛 Report Bug](https://github.com/yourusername/entros/issues) | [💡 Request Feature](https://github.com/yourusername/entros/issues)
+[⭐ Star this repo](https://github.com/yourusername/entros) | [🐛 Report Bug](https://github.com/rajofearth/entros/issues) | [💡 Request Feature](https://github.com/rajofearth/entros/issues)
 
 </div>
