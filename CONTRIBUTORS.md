@@ -7,14 +7,11 @@ Thank you for your interest in contributing to **Entros**! We welcome contributi
 ## 📋 Table of Contents
 
 - [🚀 Getting Started](#-getting-started)
-- [💻 Development Setup](#-development-setup)
-- [🔧 Development Workflow](#-development-workflow)
+- [ Development Workflow](#-development-workflow)
 - [📝 Contribution Guidelines](#-contribution-guidelines)
 - [🐛 Known Issues & Bug Reports](#-known-issues--bug-reports)
 - [✨ Feature Requests & Enhancements](#-feature-requests--enhancements)
 - [🎯 Good to Have Features](#-good-to-have-features)
-- [🧪 Testing](#-testing)
-- [📚 Code Style](#-code-style)
 - [🔄 Pull Request Process](#-pull-request-process)
 
 ---
