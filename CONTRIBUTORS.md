@@ -26,10 +26,9 @@ Thank you for your interest in contributing to **Entros**! We welcome contributi
 Before you begin, ensure you have the following installed:
 
 - **Node.js** (v16.0.0 or higher)
-- **npm** (v7.0.0 or higher) or **yarn**
+- **npm** (v7.0.0 or higher)
 - **Git** for version control
 - A **TMDb API Key** ([Register here](https://www.themoviedb.org/settings/api))
-- Code editor (VS Code recommended)
 
 ### Quick Setup
 
@@ -42,14 +41,12 @@ Before you begin, ensure you have the following installed:
 
 2. **Add upstream remote**
    ```bash
-   git remote add upstream https://github.com/ORIGINAL_OWNER/entros.git
+   git remote add upstream https://github.com/rajofearth/entros.git
    ```
 
 3. **Install dependencies**
    ```bash
    npm install
-   # or
-   yarn install
    ```
 
 4. **Environment configuration**
@@ -67,23 +64,6 @@ Before you begin, ensure you have the following installed:
    ```
 
 ---
-
-## 💻 Development Setup
-
-### Recommended VS Code Extensions
-
-```json
-{
-  "recommendations": [
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint",
-    "bradlc.vscode-tailwindcss",
-    "ms-vscode.vscode-typescript-next",
-    "formulahendry.auto-rename-tag",
-    "christian-kohler.path-intellisense"
-  ]
-}
-```
 
 ### Environment Variables
 
