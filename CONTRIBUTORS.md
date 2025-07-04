@@ -216,6 +216,11 @@ git commit -m "docs: update API integration guide"
   - **Skills needed**: UX design, error handling
   - **Difficulty**: Easy
 
+- **Improved PWA Support**: Missing service worker and app manifest optimizations
+  - **Impact**: Poor offline experience and no app installation capability
+  - **Skills needed**: Service workers, PWA standards, caching strategies
+  - **Difficulty**: Medium
+
 #### 🟢 Low Priority
 
 - **Console Warnings**: Development console shows warnings
