@@ -336,6 +336,13 @@ Screenshots, mockups, etc.
 
 ### 📱 Mobile & Performance
 
+#### **Native Mobile Apps (Android & iOS)**
+- **Description**: Native mobile applications with bring-your-own-key TMDB support
+- **Features**: Offline viewing, push notifications, native UI, camera barcode scanning
+- **BYOK Support**: Users provide their own TMDB API key for personalized experience
+- **Skills needed**: React Native/Flutter, native development, API key management, app store deployment
+- **Difficulty**: Hard
+
 #### **Progressive Web App (PWA)**
 - **Description**: Install app on mobile devices
 - **Skills needed**: Service workers, web app manifest
