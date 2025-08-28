@@ -34,6 +34,118 @@
 
 ---
 
+## 🏗️ Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Frontend (React + Vite)"
+        A[User Interface] --> B[React Components]
+        B --> C[React Router]
+        C --> D[Pages]
+        D --> E[Components]
+    end
+    
+    subgraph "API Layer"
+        F[TMDb API Client] --> G[Axios HTTP Client]
+        G --> H[TMDb REST API]
+    end
+    
+    subgraph "External Services"
+        I[TMDb Database] --> H
+        J[Vercel Analytics] --> A
+        K[Vercel Hosting] --> A
+    end
+    
+    A --> F
+    E --> F
+```
+
+---
+
+## 📊 Data Flow Architecture
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant UI as React UI
+    participant API as TMDb API
+    participant TMDB as TMDb Database
+    
+    U->>UI: Search/Filter Request
+    UI->>API: API Call (Axios)
+    API->>TMDB: Data Query
+    TMDB-->>API: Response Data
+    API-->>UI: Formatted Data
+    UI-->>U: Updated Interface
+    
+    Note over UI,TMDB: Real-time search with<br/>advanced filtering and<br/>smart scoring algorithm
+```
+
+---
+
+## 🧩 Component Architecture
+
+```mermaid
+graph TD
+    A[App.jsx] --> B[Router]
+    B --> C[HomePage]
+    B --> D[MovieDetailsPage]
+    B --> E[TvDetailsPage]
+    B --> F[PersonDetailsPage]
+    B --> G[CollectionDetailsPage]
+    B --> H[LogoPage]
+    
+    C --> I[SearchBar]
+    C --> J[MovieGrid]
+    C --> K[GenreFilter]
+    C --> L[LoadingSpinner]
+    
+    D --> M[Backdrop]
+    D --> N[DetailsSidebar]
+    D --> O[TopCast]
+    D --> P[SimilarItems]
+    D --> Q[WatchProviders]
+    D --> R[Trailer]
+    
+    E --> S[SeasonDisplay]
+    E --> T[CollectionSection]
+    
+    F --> U[Overview]
+    F --> V[MediaTypeBadge]
+    F --> W[RatingBadge]
+    
+    J --> X[MovieCard]
+```
+
+---
+
+## 🔄 Application State Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Loading
+    Loading --> HomePage
+    HomePage --> SearchResults
+    HomePage --> MovieDetails
+    HomePage --> TvDetails
+    HomePage --> PersonDetails
+    HomePage --> CollectionDetails
+    
+    SearchResults --> MovieDetails
+    SearchResults --> TvDetails
+    SearchResults --> PersonDetails
+    SearchResults --> HomePage
+    
+    MovieDetails --> HomePage
+    TvDetails --> HomePage
+    PersonDetails --> HomePage
+    CollectionDetails --> HomePage
+    
+    HomePage --> [*]
+```
+
+---
+
 ## 🚀 What Problems Does Entros Solve?
 
 ### 🎯 Content Discovery Challenge
@@ -66,6 +178,39 @@
 | **TMDb API** | Movie/TV Data Source | v3 |
 | **Vercel Analytics** | Usage Analytics | 1.4.1 |
 | **ESLint** | Code Quality | 9.17.0 |
+
+---
+
+## 📁 Project Structure
+
+```
+entros/
+├── public/                 # Static assets
+├── src/
+│   ├── api/
+│   │   └── tmdb.js        # TMDb API integration
+│   ├── components/         # Reusable UI components
+│   │   ├── Backdrop.jsx
+│   │   ├── MovieCard.jsx
+│   │   ├── SearchBar.jsx
+│   │   ├── GenreFilter.jsx
+│   │   └── ... (15 components)
+│   ├── pages/             # Route components
+│   │   ├── HomePage.jsx
+│   │   ├── MovieDetailsPage.jsx
+│   │   ├── TvDetailsPage.jsx
+│   │   ├── PersonDetailsPage.jsx
+│   │   └── CollectionDetailsPage.jsx
+│   ├── utils/             # Utility functions
+│   │   └── imageUtils.js
+│   ├── App.jsx            # Main app component
+│   ├── main.jsx           # App entry point
+│   └── index.css          # Global styles
+├── package.json           # Dependencies & scripts
+├── vite.config.js         # Vite configuration
+├── tailwind.config.js     # Tailwind CSS config
+└── README.md              # Project documentation
+```
 
 ---
 
@@ -150,6 +295,57 @@ Entros integrates with **The Movie Database (TMDb) API** to provide:
 - Watch provider information
 - Collection details
 - Person filmographies
+
+### API Endpoints Used
+
+```mermaid
+graph LR
+    A[TMDb API] --> B[/search/movie]
+    A --> C[/search/tv]
+    A --> D[/search/person]
+    A --> E[/movie/{id}]
+    A --> F[/tv/{id}]
+    A --> G[/person/{id}]
+    A --> H[/trending/movie/week]
+    A --> I[/trending/tv/week]
+    A --> J[/movie/top_rated]
+    A --> K[/tv/top_rated]
+    A --> L[/discover/movie]
+    A --> M[/discover/tv]
+```
+
+---
+
+## 🧠 Smart Content Scoring Algorithm
+
+The application uses a sophisticated scoring algorithm to rank content:
+
+```mermaid
+graph TD
+    A[Content Item] --> B[Recency Score]
+    A --> C[Rating Score]
+    A --> D[Origin Score]
+    A --> E[Media Type Score]
+    
+    B --> F[Time Decay Factor]
+    C --> G[Vote Average]
+    D --> H[Hollywood Boost]
+    E --> I[Movie/TV Weight]
+    
+    F --> J[Final Score]
+    G --> J
+    H --> J
+    I --> J
+    
+    J --> K[Ranked Results]
+```
+
+**Scoring Factors:**
+- **Recency Weight**: 40% - Newer content gets higher scores
+- **Vote Average Weight**: 30% - Higher-rated content preferred
+- **Hollywood Boost**: 60% bonus for US-produced content
+- **Movie Boost**: 90% bonus for movies over TV shows
+- **Time Decay**: Exponential decay over 365 days
 
 ---
 
