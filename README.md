@@ -300,18 +300,18 @@ Entros integrates with **The Movie Database (TMDb) API** to provide:
 
 ```mermaid
 graph LR
-    A[TMDb API] --> B[/search/movie]
-    A --> C[/search/tv]
-    A --> D[/search/person]
-    A --> E[/movie/{id}]
-    A --> F[/tv/{id}]
-    A --> G[/person/{id}]
-    A --> H[/trending/movie/week]
-    A --> I[/trending/tv/week]
-    A --> J[/movie/top_rated]
-    A --> K[/tv/top_rated]
-    A --> L[/discover/movie]
-    A --> M[/discover/tv]
+    A[TMDb API] --> B[search/movie]
+    A --> C[search/tv]
+    A --> D[search/person]
+    A --> E[movie/{id}]
+    A --> F[tv/{id}]
+    A --> G[person/{id}]
+    A --> H[trending/movie/week]
+    A --> I[trending/tv/week]
+    A --> J[movie/top_rated]
+    A --> K[tv/top_rated]
+    A --> L[discover/movie]
+    A --> M[discover/tv]
 ```
 
 ---
